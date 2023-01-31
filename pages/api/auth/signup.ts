@@ -3,13 +3,15 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 import underscorize from "../../../utils/underscorize";
 
-type Data = {
-  name: string;
-};
+interface ApiDataI {
+  token?: string;
+  user?: Record<string, string>;
+  message?: string | null;
+}
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<ApiDataI>
 ) {
   const api = `${process.env.API_URL}/auth/signup`;
   const underscoredData = underscorize(req.body.body);
@@ -17,8 +19,8 @@ export default async function handler(
   try {
     const apiRes = await axios.post(api as string, {
       ...underscoredData,
-      // This should be programmed in, but ignore it for now
-      company: { name: "test" },
+      // TODO: Add this field to signup process
+      company: { name: "default" },
     });
 
     if (apiRes.data) {
@@ -26,8 +28,9 @@ export default async function handler(
     } else {
       res.status(500);
     }
-  } catch (e) {
-    console.log(e);
-    res.status(500);
+  } catch (e: any) {
+    const defaultMessage = "Something went wrong, try again in a little while";
+    const errorMessage = e?.response?.data?.message;
+    res.status(500).send({ message: errorMessage || defaultMessage });
   }
 }

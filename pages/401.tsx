@@ -1,20 +1,28 @@
 import type { NextPage } from 'next'
-import Router from 'next/router'
+import Head from 'next/head'
+import Link from 'next/link'
 
-// In the future we would want to redirect automatically + do some other checks
+const NotAuthorized: NextPage = () => {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+      <Head>
+        <title>Not authorized</title>
+      </Head>
 
-// const navigateToInitialRoute = () => {
-//   const token = localStorage.getItem("token");
-//   const user = localStorage.getItem("user");
-//   if (token && user) {
-//     Router.router?.push("/profile")
-//   } else {
-//     Router.router?.push("/signin")
-//   }
-// }
-
-const Index: NextPage = () => {
-  return <h1>You're not logged in silly billy</h1>;
+      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
+        <div className="w-full p-6 bg-white rounded-md ring ring-2 ring-red-500 lg:max-w-xl">
+          <h1 className="text-xl font-regular text-gray-800">
+            Please{" "}
+            <Link
+              href="/signin"
+              className="font-medium text-red-500 hover:underline"
+            >sign in</Link>
+            {" "}to continue
+          </h1>
+        </div>
+      </main>
+    </div >
+  )
 }
 
-export default Index
+export default NotAuthorized

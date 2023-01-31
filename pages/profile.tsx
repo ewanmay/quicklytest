@@ -2,24 +2,26 @@ import Router from 'next/router';
 import React, { useEffect, useState } from "react";
 
 export default function Profile() {
-  const [user, setUser] = useState<Record<string, string>>({ first_name: "te", last_name: "te", email: "t@tete.com"});
+  const [user, setUser] = useState<Record<string, string>>();
+  const isBrowser = typeof window !== "undefined";
 
   const redirectOrStay = () => {
     const token = localStorage?.getItem("token");
     const user = localStorage?.getItem("user");
-    console.log(user)
     if (!token || !user) {
       Router.router?.push("/401")
     } else {
-      // setUser(JSON.parse(user));
+      setUser(JSON.parse(user));
     }
   }
 
+  // NextJS is server side rendered, so we need to wait 
+  // until the browser is ready to check storage
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (isBrowser) {
       redirectOrStay();
     }
-  });
+  }, [isBrowser]);
 
   return (
     <div className="w-full md:w-9/12 mx-2 h-full">

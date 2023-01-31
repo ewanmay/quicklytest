@@ -83,8 +83,8 @@ const SignIn: NextPage = () => {
                 setErrorMessage("Something went wrong... we're working on it!")
             }
 
-        } catch (e) {
-            console.log(e)
+        } catch (e: any) {
+            setErrorMessage(e.response.data.message)
         }
     }
 

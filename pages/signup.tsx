@@ -109,8 +109,8 @@ const SignUp: NextPage = () => {
             }
 
 
-        } catch (e) {
-            console.log(e)
+        } catch (e: any) {
+            setErrorMessage(e.response.data.message)
         }
     }
 
@@ -121,7 +121,6 @@ const SignUp: NextPage = () => {
         localStorage.setItem("token", token);
     }
 
-    console.log(formErrors)
     return (
         <div className="flex min-h-screen flex-col items-center justify-center py-2">
             <Head>
