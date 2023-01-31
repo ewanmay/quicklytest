@@ -57,7 +57,7 @@ const SignUp: NextPage = () => {
         }
 
         const email = formData.email;
-        if (!regexCheck(email, /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+        if (!regexCheck(email, /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
             newFormErrors.email = "Please enter a valid email."
         }
 
