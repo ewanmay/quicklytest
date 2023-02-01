@@ -17,11 +17,7 @@ export default async function handler(
   const underscoredData = underscorize(req.body.body);
 
   try {
-    const apiRes = await axios.post(api as string, {
-      ...underscoredData,
-      // TODO: Add this field to signup process
-      company: { name: "default" },
-    });
+    const apiRes = await axios.post(api as string, underscoredData);
 
     if (apiRes.data) {
       res.status(200).send(apiRes.data);

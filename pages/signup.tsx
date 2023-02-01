@@ -14,14 +14,16 @@ const SignUp: NextPage = () => {
         firstName: "",
         lastName: "",
         email: "",
+        company: "",
         password: "",
-        passwordConfirmation: ""
+        passwordConfirmation: "",
     });
 
     const [formErrors, setFormErrors] = useState<Record<string, string>>({
         firstName: "",
         lastName: "",
         email: "",
+        company: "",
         password: "",
         passwordConfirmation: ""
     });
@@ -61,6 +63,11 @@ const SignUp: NextPage = () => {
             newFormErrors.email = "Please enter a valid email."
         }
 
+        const company = formData.company;
+        if (!minLengthCheck(company, 1)) {
+            newFormErrors.company = "Please enter a company name."
+        }
+
         const password = formData.password;
         if (!minLengthCheck(password, 6)) {
             newFormErrors.password = "Please enter a password longer than 6 characters."
@@ -86,8 +93,12 @@ const SignUp: NextPage = () => {
             return;
         }
 
-        const formDataCopy: Record<string, string> = { ...formData };
+        const formDataCopy: Record<string, any> = { ...formData };
         delete formDataCopy.passwordConfirmation;
+
+        formDataCopy.company = {
+            name: formData.company
+        }
 
         try {
             const res = await axios.post("/api/auth/signup", {
@@ -161,6 +172,14 @@ const SignUp: NextPage = () => {
                             error={formErrors.email}
                             onChange={handleInput}
                         />
+                        <Input
+                            label={'Company'}
+                            type={'company'}
+                            name={'company'}
+                            error={formErrors.company}
+                            onChange={handleInput}
+                        />
+                        
                         <Input
                             label={'Password'}
                             type={'password'}
